@@ -1,0 +1,182 @@
+<!-- <p>add-taskassigntoother works!</p> -->
+
+<h3 mat-dialog-title class="titless">
+    <span class="taskk">Add Task</span>
+    <span class="taskk" (click)="cancel()">x</span>
+</h3>
+
+
+<div mat-dialog-content class="contentdata">
+
+    <mat-tab-group [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChanged($event)">
+        <mat-tab label="Assign to Others">
+            <div class="assigntoother">
+
+                <form [formGroup]="assignroothers">
+                    <div class="row">
+                        <mat-form-field class="col-12">
+                            <mat-label>Title</mat-label>
+                            <input matInput placeholder="Title" formControlName="Title" />
+                            <mat-error>Title is required</mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="row">
+                        <mat-form-field class="col-12">
+                            <mat-label>Description</mat-label>
+                            <input matInput placeholder="Description" formControlName="Description" />
+                            <mat-error> Description is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                        <mat-form-field class="col-12">
+                            <mat-label>Attach File</mat-label>
+                            <input matInput placeholder="Attach File" formControlName="Image" />
+                            <!-- <mat-error> Enter your name </mat-error> -->
+                        </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                        <mat-form-field class="col-6">
+                            <mat-label>Lead/Customer Name</mat-label>
+                            <input matInput placeholder="Lead/Customer Name" formControlName="LeadId" />
+                            <!-- <mat-error> Enter your name </mat-error> -->
+                        </mat-form-field>
+
+                        <mat-form-field class="col-6" (click)="picker.open()">
+                            <mat-label>Select Due Date</mat-label>
+                            <input matInput placeholder="Select Due Date" [matDatepicker]="picker" 
+                                formControlName="TaskEndDateDisplay" (ngModelChange)="onStartChange($event)" />
+                            <input type="text" formControlName="TaskEndDate" hidden />
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error> Please enter Due Date </mat-error>
+                        </mat-form-field>
+
+
+                    </div>
+
+                    <div class="row">
+                        <mat-form-field class="col-6">
+                            <mat-label>Select Priority</mat-label>
+                            <!-- <input matInput placeholder="Select Due Date" formControlName="Priority" /> -->
+                            <mat-select>
+
+                                <mat-option *ngFor="let food of Priority "
+                                    [value]="food.value">{{food.viewValue}}</mat-option>
+                            </mat-select>
+                            <mat-error> Select Priority</mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="row">
+                        <mat-form-field class="col-12">
+                            <mat-label>Add Users</mat-label>
+                            <input matInput type="text" placeholder="Add Users" formControlName="UserDisplayIds" (click)="adduser()" />
+                            <input type="text" formControlName="UserIds" hidden/>
+                            <mat-error> Users is required</mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="row">
+                        <mat-form-field class="col-12">
+                            <mat-label>Add CC Members</mat-label>
+                            <input matInput placeholder="Add CC Members" formControlName="TaskDisplayOwners" (click)="addCC()" readonly/>
+                            <input type="text" formControlName="TaskOwners" hidden/>
+
+                        </mat-form-field>
+
+                    </div>
+
+                </form>
+            </div>
+        </mat-tab>
+        <mat-tab label="Assign to Me">
+            <div class="assigntoother">
+
+                <form [formGroup]="assignroothers">
+                    <div class="row">
+                        <mat-form-field class="col-12">
+                            <mat-label>Title</mat-label>
+                            <input matInput placeholder="Title" formControlName="Title" />
+                            <mat-error>Title is required</mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="row">
+                        <mat-form-field class="col-12">
+                            <mat-label>Description</mat-label>
+                            <input matInput placeholder="Description" formControlName="Description" />
+                            <mat-error> Description is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                        <mat-form-field class="col-12">
+                            <mat-label>Attach File</mat-label>
+                            <input matInput placeholder="Attach File" formControlName="Image" />
+                            <!-- <mat-error> Enter your name </mat-error> -->
+                        </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                        <mat-form-field class="col-6">
+                            <mat-label>Lead/Customer Name</mat-label>
+                            <input matInput placeholder="Lead/Customer Name" formControlName="LeadId" />
+                            <!-- <mat-error> Enter your name </mat-error> -->
+                        </mat-form-field>
+
+                        <mat-form-field class="col-6" (click)="picker.open()">
+                            <mat-label>Select Due Date</mat-label>
+                            <input matInput placeholder="Select Due Date" [matDatepicker]="picker" 
+                                formControlName="TaskEndDateDisplay" (ngModelChange)="onStartChange($event)" />
+                            <input type="text" formControlName="TaskEndDate" hidden />
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error> Please enter Due Date </mat-error>
+                        </mat-form-field>
+
+
+                    </div>
+
+                    <div class="row">
+                        <mat-form-field class="col-6">
+                            <mat-label>Select Priority</mat-label>
+                            <!-- <input matInput placeholder="Select Due Date" formControlName="Priority" /> -->
+                            <mat-select>
+
+                                <mat-option *ngFor="let food of Priority "
+                                    [value]="food.value">{{food.viewValue}}</mat-option>
+                            </mat-select>
+                            <mat-error> Select Priority</mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="row">
+                        <mat-form-field class="col-12">
+                            <mat-label>Add CC Members</mat-label>
+                            <input matInput placeholder="Add CC Members" formControlName="TaskDisplayOwners" (click)="addCC()" readonly/>
+                            <input type="text" formControlName="TaskOwners" hidden/>
+
+                        </mat-form-field>
+
+                    </div>
+
+                </form>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+
+</div>
+
+
+<div mat-dialog-actions class="buttons">
+    <button mat-raised-button class="cancel" (click)="closed()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="add()">Add</button>
+</div>

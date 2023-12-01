@@ -1,0 +1,49 @@
+.mainheader{
+    height: 52px;
+    border-bottom: 2px solid beige;
+}
+
+.line{
+    width: 2px;
+    height: 34px;
+    border: 1px solid rgb(209, 209, 205);
+}
+
+.title{
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: #434349;
+    margin-bottom: 0px;
+    padding: 12px;
+    border-right: 2px beige ;
+}
+
+.subheader{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap; 
+    padding-left: 2rem;
+}
+
+// .subheaderr{
+//     display: flex;
+//     justify-content: flex-start;
+//     align-items: center;
+//     flex-wrap: wrap; 
+//     margin-left: 20px;
+// }
+
+.time{
+    margin:0px;
+    padding-right: 8px;
+}
+
+.date{
+    margin:0px;
+    padding-left: 8px;
+}
+.Punchin{
+    margin-left:50px;
+}
+

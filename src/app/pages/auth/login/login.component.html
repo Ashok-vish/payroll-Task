@@ -1,0 +1,38 @@
+<!-- <p>login works!</p> -->
+
+<div class="row p-0 m-0">
+    <div class="loginfirsthalf col-5 p-0 m-0">
+        <img src="assets/images/scott-webb-NQymDb5XqC4-unsplash.jpg" alt="" height="100%" width="100%">
+        
+    </div>
+    <div class="loginSecondhalf col-7 p-0 m-0">
+        <div class="loginform">
+            <div>
+                <img src="" alt="">
+                <h3 class="top-header">Get Started with BETA Field Force</h3>
+            </div>
+            <div>
+                <div class="col-6">
+                    <form [formGroup]="login">
+
+                        <!-- <label><b>Name</b><span class="text-danger">*</span></label><br /> -->
+                        <mat-form-field>
+                            <mat-label>Title*</mat-label>
+                            <input matInput placeholder="Email Id / Mobile No" formControlName="title" />
+                            <mat-error> Title is required </mat-error>
+                        </mat-form-field>
+
+
+                        <mat-form-field>
+                            <mat-label>Password</mat-label>
+                            <input matInput type="password" placeholder="Password" formControlName="Password" />
+                            <mat-error> Enter your password </mat-error>
+                        </mat-form-field>
+
+                    </form>
+                    <button type="button" mat-raised-button color="primary" (click)="signin()">Sign In</button>
+                </div>
+            </div>
+
+        </div>
+    </div>

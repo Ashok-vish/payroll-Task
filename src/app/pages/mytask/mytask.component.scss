@@ -1,0 +1,44 @@
+.Searchfeild {
+    border-bottom: 1px solid beige;
+    border: unset;
+    padding: 10px 10px 10px 10px;
+    height: 32px;
+    box-shadow: 0px 0.5px 3px black;
+    border-radius: 4px;
+    margin-top: 12px;
+    width: 18rem;
+}
+
+.mytaskheader {
+    height: 58px;
+    border-bottom: 2px solid beige;
+}
+
+.filtertitle {
+    padding: 10px 10px 10px 34px;
+}
+
+.fullpages {
+    padding: 0px 10px;
+}
+
+.text {
+    padding: 10px;
+    height: 56px;
+}
+
+.remainingfeiild {
+    display: flex;
+}
+
+.btnpr {
+    margin-left: 5px;
+}
+
+.allbtnoption {
+    padding: 10px;
+}
+
+:host ::ng-deep .mat-mdc-tab-label-container {
+    border-bottom: 2px solid beige;
+}
