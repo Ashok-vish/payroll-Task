@@ -1,0 +1,49 @@
+.contentdata {
+    height: 22rem;
+    overflow-x: auto;
+}
+
+.resdata {
+    padding: 8px;
+}
+
+.titless {
+    height: 32px;
+    margin: 4px 0px 8px 14px;
+    font-weight: 600;
+    padding-top: 4px;
+    border-bottom: 2px solid beige;
+}
+
+.buttons {
+    text-align: end;
+    padding: 10px 16px 0 0;
+    cursor: pointer;
+}
+
+:host ::ng-deep button.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-primary.mat-mdc-button-base {
+    width: 5.5rem;
+}
+
+.cancel {
+    margin-right: 14px;
+}
+
+.searchbar {
+
+    padding: 0px 4px;
+
+    input {
+
+        width: 100%;
+        height: 32px;
+        padding: 0px 10px;
+        border-radius: 12px;
+        border: unset;
+        border-bottom: 2px solid beige;
+    }
+}
+
+// input.ng-pristine.ng-valid.ng-touched:focus-visible {
+//     outline: none !important;
+// }

@@ -25,7 +25,9 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
 
 
   ngOnChanges() {
-    console.log(this.selectedIndex);
+    // console.log(this.selectedIndex);
+  this.answer
+    console.log(this.answer  + "onchange")
 
   }
 
@@ -33,6 +35,9 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
 
 
   ngOnInit() {
+    this.answer
+    console.log(this.answer)
+
     this.assignroothers = this.fb.group({
 
       Id: [''],
@@ -117,7 +122,7 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
   closed() {
     this.dialogRef.close()
   }
-
+// cross icon
   cancel() {
     this.dialogRef.close()
   }
@@ -126,22 +131,33 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
   // add CC
 
   addCC() {
-    this.dialog.open(AddccmembersComponent, {
+    const addccc=this.dialog.open(AddccmembersComponent, {
       height: '450px',
       width: '400px',
       // data: this.topics,
       disableClose: true,
 
+    })
+
+    addccc.afterClosed().subscribe((res:any)=>{
+      console.log(res + "cc  test")
     })
   }
 
+  answer:any
   adduser(){
-    this.dialog.open(AdduserComponent,{
+    const adduser = this.dialog.open(AdduserComponent,{
       height: '450px',
       width: '400px',
-      // data: this.topics,
+      data: this.answer,
       disableClose: true,
     })
+
+    // adduser.afterClosed().subscribe((res:any)=>{this.answer=res})
+    adduser.afterClosed().subscribe((res:any)=>this.answer=res)
+
+
+
   }
 
 

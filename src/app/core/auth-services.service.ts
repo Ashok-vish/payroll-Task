@@ -14,4 +14,12 @@ export class AuthServicesService {
   login(username:string, password:string): Observable<any> {
     return this.http.post<any>(`api/account/authenticate`,{ username, password })
   }
+
+  addusers(from:number , text:string, to:number):Observable<any>{
+    return this.http.get<any>(`api/CompanyMembers?from=${from}&text=${text}&to=${to}`)
+  }
+
+  addCC(from:number , text:string, to:number):Observable<any>{
+    return this.http.get<any>(`api/CompanyMembers?from=${from}&text=${text}&to=${to}`)
+  }
 }

@@ -9,6 +9,9 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatCardModule} from '@angular/material/card';
+
 
 
 
@@ -22,7 +25,9 @@ const component=[MatFormFieldModule,
   MatButtonModule,
   MatIconModule,
   MatTabsModule,
-  MatDatepickerModule
+  MatDatepickerModule,
+  MatCheckboxModule,
+  MatCardModule
 
 
 
