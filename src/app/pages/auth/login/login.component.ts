@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   }
 
   signin() {
+    // debugger
     if (this.login.invalid) {
       this.login.markAllAsTouched()
       return
@@ -31,12 +32,16 @@ export class LoginComponent implements OnInit {
       this.email = this.login.controls['email'].value
       this.password = this.login.controls['Password'].value
 
-      console.log(this.email + this.password)
+      // console.log(this.email + this.password)
 
       this.authServices.login(this.email, this.password).pipe(map((res: any) => {
         if (res.userDetail.Status==200) {
+          console.log(res.userDetail.data)
+          const userdata=res.userDetail.data
+          console.log(res.userDetail)
           const accessToken = "Basic" + btoa(this.email + ":" + this.password)
           localStorage.setItem('access_token', accessToken)
+          localStorage.setItem('userId', res.userId)
           this.toastr.success("Login Successfully")
           this.router.navigate(['/mytask'])
           

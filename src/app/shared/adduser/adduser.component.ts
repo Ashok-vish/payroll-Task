@@ -16,10 +16,10 @@ export class AdduserComponent implements OnInit {
   // text: string = '';
   last: number = 10;
   totalPage: any
-  userIds: any[] = [];
-  retaindata: any[] = [];
+  userIds: any = [];
+  retaindata: any;
   checked: boolean = false;
-  searchText:any=''
+  searchText: any = ''
 
 
   constructor(private dialogref: MatDialogRef<AdduserComponent>, public services: AuthServicesService,
@@ -31,41 +31,72 @@ export class AdduserComponent implements OnInit {
 
     this.getSettings()
 
-    if (this.retaindata?.length > 0) {
-      // this.userIds?.push(this.retaindata)
-      for(let i=0; i<=this.retaindata.length-1; i++){
-        this.userIds.push(this.retaindata[i])
+    console.log(this.retaindata)
+
+    // Userrole: "User"
+    // data: undefined
+
+
+    if (this.retaindata.Userrole == "User") {
+
+      if (this.retaindata?.data?.length > 0) {
+        // this.userIds?.push(this.retaindata)
+        for (let i = 0; i <= this.retaindata.data.length - 1; i++) {
+          this.userIds.push(this.retaindata.data[i])
+        }
       }
+
+    } else if (this.retaindata.Userrole == "CC") {
+
+      if (this.retaindata?.data?.length > 0) {
+        // this.userIds?.push(this.retaindata)
+        for (let i = 0; i <= this.retaindata.data.length - 1; i++) {
+          this.userIds.push(this.retaindata.data[i])
+        }
+      }
+
     }
+
+
+
+
 
 
   }
 
-  searcbar(event:any){
+  searcbar(event: any) {
     // console.log(event.target.value);
     // this.searchText=event.target.value
 
-    setTimeout(()=>{
-      this.searchText=event.target.value
-      console.log(this.searchText)
+    setTimeout(() => {
+      this.searchText = event.target.value
       this.getSettings()
-    },1000)
+    }, 1000)
 
   }
 
   getSettings() {
     // debugger
+    console.log(this.retaindata.data?.length);
+    
     this.services.addusers(this.formm, this.searchText, this.last).subscribe((res: any) => {
-      this.listofCategory = res.data.Members
+      // this.listofCategory = res.data.Members
+      const listarray = res.data.Members
+
+      if(listarray){
+        for(let i=0; i<=listarray.length-1;i++){
+            this.listofCategory.push(listarray[i])
+        }
+      }
       console.log(this.listofCategory);
 
       this.totalPage = res.data.TotalRecords
 
-      if (this.retaindata?.length > 0) {
+      if (this.retaindata.data?.length > 0) {
         // debugger
-        for (let i = 0; i < this.retaindata?.length; i++) {
+        for (let i = 0; i < this.retaindata.data?.length; i++) {
           for (let j = 0; j < this.listofCategory?.length; j++) {
-            if (this.retaindata[i].UserId == this.listofCategory[j].UserId && this.retaindata?.[i].checked) {
+            if (this.retaindata.data[i].UserId == this.listofCategory[j].UserId && this.retaindata.data?.[i].checked) {
               this.listofCategory[j]['checked'] = true;
             }
           }
@@ -76,20 +107,21 @@ export class AdduserComponent implements OnInit {
 
   seletectedTopic(event: any, list: any) {
 
-    console.log(event)
+    // console.log(event)
     // debugger
     if (event.checked) {
-      const topicsincludes = this.userIds?.some(user => user === list.userId)
+      const topicsincludes = this.userIds?.some((user:any) => user === list.userId)
       if (!topicsincludes) {
         list['checked'] = true
         // if(this.retaindata?.length!=0){
         //   this.userIds?.push(this.retaindata)
         // }
         this.userIds?.push(list)
-        console.log(this.userIds)
+        this.retaindata.data=this.userIds
+        console.log(this.retaindata)
       }
     } else {
-      let tempArray = this.userIds?.filter((next) => {
+      let tempArray = this.userIds?.filter((next:any) => {
         return next !== list
       })
       this.userIds = [...tempArray];
@@ -118,7 +150,7 @@ export class AdduserComponent implements OnInit {
   add() {
     console.log(this.userIds)
 
-    this.dialogref.close(this.userIds)
+    this.dialogref.close(this.retaindata)
   }
 
 

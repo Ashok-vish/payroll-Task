@@ -33,9 +33,12 @@
                     <div class="row">
                         <mat-form-field class="col-12">
                             <mat-label>Attach File</mat-label>
-                            <input matInput placeholder="Attach File" formControlName="Image" />
+                            <input matInput (click)="folder()" [value]="filesNames" readonly>
+                            <input formControlName="Image"  hidden>
+                            <input type="file" #attachedfile  (change)="previewImages($event)"hidden>
                             <!-- <mat-error> Enter your name </mat-error> -->
                         </mat-form-field>
+                        <div class="text-danger sizecondition" *ngIf="filesizecondition">Selected file is Greater than "2MB"</div>
                     </div>
 
                     <div class="row">
@@ -48,7 +51,7 @@
                         <mat-form-field class="col-6" (click)="picker.open()">
                             <mat-label>Select Due Date</mat-label>
                             <input matInput placeholder="Select Due Date" [matDatepicker]="picker" 
-                                formControlName="TaskEndDateDisplay" (ngModelChange)="onStartChange($event)" />
+                                formControlName="TaskEndDateDisplay" (ngModelChange)="onStartChange($event)" readonly/>
                             <input type="text" formControlName="TaskEndDate" hidden />
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
@@ -61,12 +64,11 @@
                     <div class="row">
                         <mat-form-field class="col-6">
                             <mat-label>Select Priority</mat-label>
-                            <!-- <input matInput placeholder="Select Due Date" formControlName="Priority" /> -->
-                            <mat-select>
+                            <mat-select formControlName="Priority">
 
                                 <mat-option *ngFor="let food of Priority "
                                     [value]="food.value">{{food.viewValue}}</mat-option>
-                            </mat-select>
+                            </mat-select >
                             <mat-error> Select Priority</mat-error>
                         </mat-form-field>
 
@@ -75,7 +77,7 @@
                     <div class="row">
                         <mat-form-field class="col-12">
                             <mat-label>Add Users</mat-label>
-                            <input matInput type="text" placeholder="Add Users" formControlName="UserDisplayIds" (click)="adduser()" />
+                            <input matInput type="text" placeholder="Add Users" formControlName="UserDisplayIds"  [value]="addusername"  (click)="adduser('User')" readonly/>
                             <input type="text" formControlName="UserIds" hidden/>
                             <mat-error> Users is required</mat-error>
                         </mat-form-field>
@@ -85,7 +87,7 @@
                     <div class="row">
                         <mat-form-field class="col-12">
                             <mat-label>Add CC Members</mat-label>
-                            <input matInput placeholder="Add CC Members" formControlName="TaskDisplayOwners" (click)="addCC()"  readonly/>
+                            <input matInput placeholder="Add CC Members" formControlName="TaskDisplayOwners" [value]="addCCname" (click)="adduser('CC')"  readonly/>
                             <input type="text" formControlName="TaskOwners" hidden/>
 
                         </mat-form-field>
@@ -133,11 +135,11 @@
 
                         <mat-form-field class="col-6" (click)="picker.open()">
                             <mat-label>Select Due Date</mat-label>
-                            <input matInput placeholder="Select Due Date" [matDatepicker]="picker" 
-                                formControlName="TaskEndDateDisplay" (ngModelChange)="onStartChange($event)" />
+                            <input matInput placeholder="Select Due Date" [matDatepicker]="pickerr" 
+                                formControlName="TaskEndDateDisplay" (ngModelChange)="onStartChange($event)" readonly/>
                             <input type="text" formControlName="TaskEndDate" hidden />
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-datepicker-toggle matSuffix [for]="pickerr"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerr></mat-datepicker>
                             <mat-error> Please enter Due Date </mat-error>
                         </mat-form-field>
 
@@ -147,8 +149,8 @@
                     <div class="row">
                         <mat-form-field class="col-6">
                             <mat-label>Select Priority</mat-label>
-                            <!-- <input matInput placeholder="Select Due Date" formControlName="Priority" /> -->
-                            <mat-select>
+
+                            <mat-select formControlName="Priority">
 
                                 <mat-option *ngFor="let food of Priority "
                                     [value]="food.value">{{food.viewValue}}</mat-option>
@@ -161,7 +163,7 @@
                     <div class="row">
                         <mat-form-field class="col-12">
                             <mat-label>Add CC Members</mat-label>
-                            <input matInput placeholder="Add CC Members" formControlName="TaskDisplayOwners" (click)="addCC()" readonly/>
+                            <input matInput placeholder="Add CC Members" formControlName="TaskDisplayOwners" (click)="adduser('CC')" readonly/>
                             <input type="text" formControlName="TaskOwners" hidden/>
 
                         </mat-form-field>

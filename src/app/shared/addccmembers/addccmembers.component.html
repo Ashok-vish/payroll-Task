@@ -6,7 +6,26 @@
 </h3>
 
 
-<div mat-dialog-content class="contentdata">
+<div mat-dialog-content class="contentdata" infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="500"
+    (scrolled)="appenddata()" [scrollWindow]="false">
+
+    <div class="searchbar">
+        <input type="text" placeholder="Search" [(ngModel)]="searchText" (input)="searcbar($event)">
+    </div>
+
+    <div class="resdata" *ngFor="let list of  listofCategory ; let i=index">
+        <section>
+            <!-- <mat-checkbox class="example-margin">{{list.name}}</mat-checkbox>
+            <mat-divider></mat-divider> -->
+            <div class="question_body">
+                <div class="d-flex justify-content-between">{{list.Name}}<mat-checkbox
+                        [checked]="list.checked"
+                        (change)="seletectedTopic($event,list)"></mat-checkbox></div>
+            </div>
+
+
+        </section>
+    </div>
 
 </div>
 

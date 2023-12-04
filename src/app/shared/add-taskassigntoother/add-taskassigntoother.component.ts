@@ -1,9 +1,10 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, HostListener, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AddccmembersComponent } from '../addccmembers/addccmembers.component';
 import { AdduserComponent } from '../adduser/adduser.component';
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-add-taskassigntoother',
@@ -13,7 +14,15 @@ import { AdduserComponent } from '../adduser/adduser.component';
 export class AddTaskassigntootherComponent implements OnInit, OnChanges {
   isActive: boolean = true;
   assignroothers: FormGroup = this.fb.group({})
-  selectedIndex = 0
+  selectedIndex = 0;
+  detailsObject: any
+  answer: any;
+  CCanswer: any[] = []
+  ccresponse: any;
+  filesNames: any = "";
+  addusername: any = '';
+  addCCname: any = '';
+  filesizecondition: boolean = false;
 
   constructor(private dialogRef: MatDialogRef<AddTaskassigntootherComponent>, private fb: FormBuilder, private dialog: MatDialog) { }
 
@@ -23,11 +32,18 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
 
   ];
 
+  // @HostListener('click', ['attachedfile'])
+  @ViewChild('attachedfile') attachedfile!: ElementRef
+
+  folder() {
+    this.attachedfile.nativeElement.click()
+  }
+
 
   ngOnChanges() {
     // console.log(this.selectedIndex);
-  this.answer
-    console.log(this.answer  + "onchange")
+    this.answer
+    console.log(this.answer + "onchange")
 
   }
 
@@ -35,6 +51,9 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
 
 
   ngOnInit() {
+    let a = localStorage.getItem('userId')
+
+
     this.answer
     console.log(this.answer)
 
@@ -51,8 +70,7 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
       ],
 
       Priority: ['', Validators.required],
-      // AssignedBy: [this.userDetails.UserId],
-      AssignedBy: [''],
+      AssignedBy: [localStorage.getItem('userId')],
       AssignedToUserId: [''],
       AssignedDate: [''],
       CompletedDate: [''],
@@ -78,11 +96,13 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
 
     })
 
-
-
     console.log(this.selectedIndex);
 
   }
+
+  // folder(){
+
+  // }
 
 
   onTabChanged(event: any) {
@@ -122,7 +142,7 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
   closed() {
     this.dialogRef.close()
   }
-// cross icon
+  // cross icon
   cancel() {
     this.dialogRef.close()
   }
@@ -130,31 +150,128 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
 
   // add CC
 
-  addCC() {
-    const addccc=this.dialog.open(AddccmembersComponent, {
+  // addCC() {
+  //   const addccc = this.dialog.open(AddccmembersComponent, {
+  //     height: '450px',
+  //     width: '400px',
+  //     data: this.ccresponse,
+  //     disableClose: true,
+
+  //   })
+
+  //   addccc.afterClosed().subscribe((res: any) => {
+  //     console.log(res + "cc  test")
+  //   })
+  // }
+
+
+  adduser(userrole: any) {
+
+    // dataObject={}
+    if (userrole == "User") {
+
+      this.detailsObject = {
+        "Userrole": "User",
+        "data": this.answer
+
+      }
+    } else if (userrole == "CC") {
+      this.detailsObject = {
+        "Userrole": "CC",
+        "data": this.CCanswer
+
+      }
+    }
+    const adduser = this.dialog.open(AdduserComponent, {
       height: '450px',
       width: '400px',
-      // data: this.topics,
+      data: this.detailsObject,
       disableClose: true,
-
     })
 
-    addccc.afterClosed().subscribe((res:any)=>{
-      console.log(res + "cc  test")
-    })
+    // adduser.afterClosed().subscribe((res:any)=>console.log(res))
+    adduser.afterClosed().subscribe((res: any) =>
+    // this.answer = res.data
+    {
+      if (userrole == "User") {
+        this.answer = res.data
+      } else if (userrole == "CC") {
+        this.CCanswer = res.data
+      }
+    }
+
+    )
+    console.log(this.answer)
+    console.log(this.detailsObject);
+
   }
 
-  answer:any
-  adduser(){
-    const adduser = this.dialog.open(AdduserComponent,{
-      height: '450px',
-      width: '400px',
-      data: this.answer,
-      disableClose: true,
-    })
 
-    // adduser.afterClosed().subscribe((res:any)=>{this.answer=res})
-    adduser.afterClosed().subscribe((res:any)=>this.answer=res)
+
+
+  previewImages(event: any) {
+    // console.log(event)
+    console.log(event.target.files[0])
+    const file = event.target.files[0]
+
+    const extension = file.name.split(".")[1]
+    const multifilename = file.name.split(".")[0]
+    const imagesSize = file.size / Math.pow(1024, 2)   // converting to MB
+
+    console.log(imagesSize)
+
+    console.log(extension + multifilename)
+
+    const imageExtension = ["jpg", "png", "svg", "jpeg"]
+
+
+    if (imagesSize <= 2) {
+      // debugger
+      this.filesizecondition = false
+      if (imageExtension.includes(extension)) {
+        this.filesNames = multifilename
+        const reader = new FileReader();
+        reader.onload = (evt: any) => {
+          const binarydata = evt.target?.result
+          const base64string = btoa(binarydata);
+          console.log(base64string)
+
+          this.assignroothers.patchValue({ Image: base64string })
+          this.assignroothers.patchValue({ MultimediaData: base64string })
+          this.assignroothers.patchValue({ MultimediaExtension: extension })
+          this.assignroothers.patchValue({ MultimediaFileName: multifilename })
+          this.assignroothers.patchValue({ MultimediaType: "I" })
+
+          console.log(this.assignroothers.value);
+
+        }
+
+        // const convertingBase=btoa(file)
+        // console.log(convertingBase);
+        reader.readAsBinaryString(file)
+        // console.log("I")
+
+      } else if (extension) {
+        const convertingBase = btoa(file)
+
+        this.assignroothers.patchValue({ Image: convertingBase })
+        this.assignroothers.patchValue({ MultimediaExtension: extension })
+        this.assignroothers.patchValue({ MultimediaFileName: multifilename })
+        this.assignroothers.patchValue({ MultimediaType: "D" })
+        console.log("D")
+      } else {
+        this.assignroothers.patchValue({ Image: "" })
+        this.assignroothers.patchValue({ MultimediaExtension: "" })
+        this.assignroothers.patchValue({ MultimediaFileName: "" })
+        this.assignroothers.patchValue({ MultimediaType: "" })
+        console.log("")
+      }
+    } else {
+      this.filesizecondition = true
+      console.log("images is greater than 2mb")
+    }
+
+
 
 
 
