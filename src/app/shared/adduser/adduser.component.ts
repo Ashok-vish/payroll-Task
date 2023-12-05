@@ -20,6 +20,7 @@ export class AdduserComponent implements OnInit {
   retaindata: any;
   checked: boolean = false;
   searchText: any = ''
+  index!: number
 
 
   constructor(private dialogref: MatDialogRef<AdduserComponent>, public services: AuthServicesService,
@@ -31,11 +32,10 @@ export class AdduserComponent implements OnInit {
 
     this.getSettings()
 
-    console.log(this.retaindata)
+
 
     // Userrole: "User"
     // data: undefined
-
 
     if (this.retaindata.Userrole == "User") {
 
@@ -76,22 +76,22 @@ export class AdduserComponent implements OnInit {
   }
 
   getSettings() {
-    // debugger
-    console.log(this.retaindata.data?.length);
+    // console.log(this.retaindata.data?.length);
     
     this.services.addusers(this.formm, this.searchText, this.last).subscribe((res: any) => {
       // this.listofCategory = res.data.Members
       const listarray = res.data.Members
-
-      if(listarray){
-        for(let i=0; i<=listarray.length-1;i++){
-            this.listofCategory.push(listarray[i])
+      
+      if (listarray) {
+        for (let i = 0; i <= listarray.length - 1; i++) {
+          this.listofCategory.push(listarray[i])
         }
       }
-      console.log(this.listofCategory);
-
+      // console.log(this.listofCategory);
+      
       this.totalPage = res.data.TotalRecords
-
+      
+      // debugger
       if (this.retaindata.data?.length > 0) {
         // debugger
         for (let i = 0; i < this.retaindata.data?.length; i++) {
@@ -110,17 +110,33 @@ export class AdduserComponent implements OnInit {
     // console.log(event)
     // debugger
     if (event.checked) {
-      const topicsincludes = this.userIds?.some((user:any) => user === list.userId)
+      const topicsincludes = this.userIds?.some((user: any) => user === list.userId)
       if (!topicsincludes) {
         list['checked'] = true
         // if(this.retaindata?.length!=0){
         //   this.userIds?.push(this.retaindata)
         // }
         this.userIds?.push(list)
-        this.retaindata.data=this.userIds
+        this.retaindata.data = this.userIds
         console.log(this.retaindata)
+        console.log(this.userIds);
+        
       }
-    } else {
+    }
+    else if (!event.checked) {
+
+      const del = this.retaindata.data.filter((el: any, i: any) => {
+
+        if (el.UserId == list.UserId) {
+          this.index = i
+        }
+      })
+
+      this.retaindata.data.splice(this.index, 1)
+
+      // console.log(this.index)
+    }
+    else {
       let tempArray = this.userIds?.filter((next:any) => {
         return next !== list
       })
@@ -148,7 +164,7 @@ export class AdduserComponent implements OnInit {
   }
 
   add() {
-    console.log(this.userIds)
+    console.log(this.retaindata)
 
     this.dialogref.close(this.retaindata)
   }

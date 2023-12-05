@@ -22,4 +22,8 @@ export class AuthServicesService {
   addCC(from:number , text:string, to:number):Observable<any>{
     return this.http.get<any>(`api/CompanyMembers?from=${from}&text=${text}&to=${to}`)
   }
+
+  assigntask(params:any):Observable<any>{
+    return this.http.post<any>(`api/Task/AssignTask`,params)
+  }
 }

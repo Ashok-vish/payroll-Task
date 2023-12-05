@@ -26,7 +26,7 @@ export class MytaskComponent {
     console.log(event)
   }
 
-  addtask() {
+    addtask() {
 
     let dialogref = this.dialog.open(AddTaskassigntootherComponent, {
       height: '500px',

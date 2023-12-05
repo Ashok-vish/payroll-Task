@@ -5,6 +5,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddccmembersComponent } from '../addccmembers/addccmembers.component';
 import { AdduserComponent } from '../adduser/adduser.component';
 import { ElementRef } from '@angular/core';
+import * as moment from 'moment/moment';
+import { AuthServicesService } from 'src/app/core/auth-services.service';
+
 
 @Component({
   selector: 'app-add-taskassigntoother',
@@ -23,8 +26,10 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
   addusername: any = '';
   addCCname: any = '';
   filesizecondition: boolean = false;
+  array: any[] = []
+  currentdate = new Date();
 
-  constructor(private dialogRef: MatDialogRef<AddTaskassigntootherComponent>, private fb: FormBuilder, private dialog: MatDialog) { }
+  constructor(private dialogRef: MatDialogRef<AddTaskassigntootherComponent>, private fb: FormBuilder, private dialog: MatDialog, private services: AuthServicesService) { }
 
   Priority = [
     { value: 'High', viewValue: 'High Priority' },
@@ -48,13 +53,13 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
   }
 
 
-
+  a: any
 
   ngOnInit() {
-    let a = localStorage.getItem('userId')
 
+    this.a = JSON.parse(localStorage.getItem('userId') || "")
 
-    this.answer
+    console.log(this.a)
     console.log(this.answer)
 
     this.assignroothers = this.fb.group({
@@ -69,10 +74,11 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
         ],
       ],
 
+
       Priority: ['', Validators.required],
-      AssignedBy: [localStorage.getItem('userId')],
+      AssignedBy: [this.a],
       AssignedToUserId: [''],
-      AssignedDate: [''],
+      AssignedDate: ['',],
       CompletedDate: [''],
       Description: ['', Validators.required],
       IntercomGroupIds: [[]],
@@ -80,15 +86,15 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
       Latitude: [''],
       Location: [''],
       Longitude: [''],
-      Image: [''],
+      Image: ['', Validators.required],
       MultimediaData: [''],
       MultimediaExtension: [''],
       MultimediaFileName: [''],
       MultimediaType: [''],
       TaskEndDateDisplay: ['', Validators.required],
       TaskEndDate: [''],
-      TaskDisplayOwners: [''],
-      TaskOwners: [''],
+      TaskDisplayOwners: ['', Validators.required],
+      TaskOwners: [[]],
       TaskStatus: [''],
       UserDisplayIds: ['', Validators.required],
       UserIds: [''],
@@ -99,11 +105,6 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
     console.log(this.selectedIndex);
 
   }
-
-  // folder(){
-
-  // }
-
 
   onTabChanged(event: any) {
     console.log(event.index)
@@ -121,21 +122,57 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
     }
 
   }
+  newdate: any;
+  TaskEnd: any
 
-  onStartChange(event: any) {
-    console.log(event)
+  onStartChange() {
+    // console.log(event)
+    const date = new Date()
+    this.TaskEnd = date.toISOString()
+    console.log(this.TaskEnd)
+    // const abc=new Date(TaskEndDateDisplay)
+    // console.log(abc)
+    this.newdate = moment(date).format('D MMM YYYY h:mm A');
+    console.log(this.newdate)
+    // this.assignroothers.patchValue({TaskEndDateDisplay:TaskEnd})
+    // this.assignroothers.patchValue({TaskEndDate:abc})
+
+    this.assignroothers.controls['TaskEndDateDisplay'].setValue(this.TaskEnd)
+    this.assignroothers.controls['TaskEndDate'].setValue(this.newdate)
   }
+
 
 
   add() {
     // debugger
+    if(this.selectedIndex ==1){
+      this.assignroothers.controls['UserDisplayIds'].disable()
+    }
+    if (this.assignroothers.invalid) {
+      console.log(this.assignroothers.value)
+      this.assignroothers.markAllAsTouched()
+      return
+    } else {
+      if (this.selectedIndex == 0) {
+        const params = this.assignroothers.value
+        console.log(params)
 
-    // if (this.assignroothers.invalid) {
-    //   this.assignroothers.markAllAsTouched()
-    //   return
-    // }else{
-    // }
-    console.log(this.assignroothers.value)
+        this.services.assigntask(params).subscribe((res: any) => {
+          console.log(res)
+        })
+      } else if (this.selectedIndex == 1) {
+
+        
+        this.assignroothers.controls['UserIds'].patchValue([this.a])
+
+        const params = this.assignroothers.value
+        console.log(params)
+        this.services.assigntask(params).subscribe((res:any)=>{
+          console.log(res)
+        })
+      }
+    }
+    // console.log(this.assignroothers.value)
 
   }
 
@@ -194,9 +231,37 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
     // this.answer = res.data
     {
       if (userrole == "User") {
+        // console.log(res)
         this.answer = res.data
+        const newUser = this.answer;
+        this.addusername = res.data.length + "  Users"
+        this.assignroothers.patchValue({ UserDisplayIds: this.addusername })
+        for (let i = 0; i <= newUser.length - 1; i++) {
+          this.array.push(newUser[i]?.UserId)
+        }
+
+        this.assignroothers.patchValue({ UserIds: this.array })
+
+        // const newuserObjct=res.data.map(({Name:any })=> ({UserId, Name })))
+
+
+
+
+        this.assignroothers.patchValue({})
+
       } else if (userrole == "CC") {
         this.CCanswer = res.data
+        const newCC = [...this.CCanswer]
+        this.addCCname = res.data.length + "  Users"
+        this.assignroothers.patchValue({ TaskDisplayOwners: this.addCCname })
+
+        // newCC.forEach((element: any) => {
+        //   delete element['checked']
+        // });
+
+        console.log(newCC)
+
+        this.assignroothers.patchValue({ TaskOwners: newCC })
       }
     }
 
@@ -246,12 +311,15 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
 
         }
 
+
+
         // const convertingBase=btoa(file)
         // console.log(convertingBase);
         reader.readAsBinaryString(file)
         // console.log("I")
 
       } else if (extension) {
+        this.filesNames = multifilename
         const convertingBase = btoa(file)
 
         this.assignroothers.patchValue({ Image: convertingBase })

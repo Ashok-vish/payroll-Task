@@ -4,6 +4,7 @@
       "secure": false,
       "loglevel":"debug",
       "changeOrigin":true
-
+      
     }
   }
+  

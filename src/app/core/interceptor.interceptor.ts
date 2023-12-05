@@ -8,11 +8,12 @@ import {
 } from '@angular/common/http';
 import { Observable, finalize, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class InterceptorInterceptor implements HttpInterceptor {
 
-  constructor(private router:Router) {}
+  constructor(private router:Router  , private toastr:ToastrService) {}
   access_token=localStorage.getItem('access_token')
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -32,6 +33,7 @@ export class InterceptorInterceptor implements HttpInterceptor {
         }
       }, (err) => {
         console.log("something went wrong")
+        this.toastr.error(err.error.message)
       }
       )
     )

@@ -15,7 +15,7 @@
                 <form [formGroup]="assignroothers">
                     <div class="row">
                         <mat-form-field class="col-12">
-                            <mat-label>Title</mat-label>
+                            <mat-label>Title*</mat-label>
                             <input matInput placeholder="Title" formControlName="Title" />
                             <mat-error>Title is required</mat-error>
                         </mat-form-field>
@@ -32,11 +32,11 @@
 
                     <div class="row">
                         <mat-form-field class="col-12">
-                            <mat-label>Attach File</mat-label>
+                            <mat-label>Attach File*</mat-label>
                             <input matInput (click)="folder()" [value]="filesNames" readonly>
                             <input formControlName="Image"  hidden>
                             <input type="file" #attachedfile  (change)="previewImages($event)"hidden>
-                            <!-- <mat-error> Enter your name </mat-error> -->
+                            <mat-error> Atleast one images required </mat-error>
                         </mat-form-field>
                         <div class="text-danger sizecondition" *ngIf="filesizecondition">Selected file is Greater than "2MB"</div>
                     </div>
@@ -48,17 +48,17 @@
                             <!-- <mat-error> Enter your name </mat-error> -->
                         </mat-form-field>
 
-                        <mat-form-field class="col-6" (click)="picker.open()">
+                        <mat-form-field class="col-6" (click)="picker.open()" >
                             <mat-label>Select Due Date</mat-label>
-                            <input matInput placeholder="Select Due Date" [matDatepicker]="picker" 
-                                formControlName="TaskEndDateDisplay" (ngModelChange)="onStartChange($event)" readonly/>
+                            <input matInput placeholder="Select Due Date" [matDatepicker]="picker" [min]="currentdate"
+                                formControlName="TaskEndDateDisplay" (dateChange)="onStartChange()" readonly/>
                             <input type="text" formControlName="TaskEndDate" hidden />
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                             <mat-error> Please enter Due Date </mat-error>
                         </mat-form-field>
 
-
+ 
                     </div>
 
                     <div class="row">
@@ -79,7 +79,7 @@
                             <mat-label>Add Users</mat-label>
                             <input matInput type="text" placeholder="Add Users" formControlName="UserDisplayIds"  [value]="addusername"  (click)="adduser('User')" readonly/>
                             <input type="text" formControlName="UserIds" hidden/>
-                            <mat-error> Users is required</mat-error>
+                            <mat-error> Users is required </mat-error>
                         </mat-form-field>
 
                     </div>
@@ -89,6 +89,7 @@
                             <mat-label>Add CC Members</mat-label>
                             <input matInput placeholder="Add CC Members" formControlName="TaskDisplayOwners" [value]="addCCname" (click)="adduser('CC')"  readonly/>
                             <input type="text" formControlName="TaskOwners" hidden/>
+                            <mat-error> Users is required </mat-error>
 
                         </mat-form-field>
 
@@ -120,23 +121,26 @@
 
                     <div class="row">
                         <mat-form-field class="col-12">
-                            <mat-label>Attach File</mat-label>
-                            <input matInput placeholder="Attach File" formControlName="Image" />
-                            <!-- <mat-error> Enter your name </mat-error> -->
+                            <mat-label>Attach File*</mat-label>
+                            <input matInput (click)="folder()" [value]="filesNames" readonly>
+                            <input formControlName="Image"  hidden>
+                            <input type="file" #attachedfile  (change)="previewImages($event)"hidden>
+                            <mat-error> Atleast one images required </mat-error>
                         </mat-form-field>
+                        <div class="text-danger sizecondition" *ngIf="filesizecondition">Selected file is Greater than "2MB"</div>
                     </div>
 
                     <div class="row">
                         <mat-form-field class="col-6">
                             <mat-label>Lead/Customer Name</mat-label>
                             <input matInput placeholder="Lead/Customer Name" formControlName="LeadId" />
-                            <!-- <mat-error> Enter your name </mat-error> -->
+                            
                         </mat-form-field>
 
-                        <mat-form-field class="col-6" (click)="picker.open()">
+                        <mat-form-field class="col-6" (click)="pickerr.open()">
                             <mat-label>Select Due Date</mat-label>
-                            <input matInput placeholder="Select Due Date" [matDatepicker]="pickerr" 
-                                formControlName="TaskEndDateDisplay" (ngModelChange)="onStartChange($event)" readonly/>
+                            <input matInput placeholder="Select Due Date" [matDatepicker]="pickerr"   [min]="currentdate" 
+                                formControlName="TaskEndDateDisplay" (dateChange)="onStartChange()" readonly/>
                             <input type="text" formControlName="TaskEndDate" hidden />
                             <mat-datepicker-toggle matSuffix [for]="pickerr"></mat-datepicker-toggle>
                             <mat-datepicker #pickerr></mat-datepicker>
@@ -163,9 +167,10 @@
                     <div class="row">
                         <mat-form-field class="col-12">
                             <mat-label>Add CC Members</mat-label>
-                            <input matInput placeholder="Add CC Members" formControlName="TaskDisplayOwners" (click)="adduser('CC')" readonly/>
+                            <input matInput placeholder="Add CC Members" formControlName="TaskDisplayOwners" [value]="addCCname" (click)="adduser('CC')" readonly/>
                             <input type="text" formControlName="TaskOwners" hidden/>
-
+                            <mat-error> Users is required </mat-error>
+ 
                         </mat-form-field>
 
                     </div>
