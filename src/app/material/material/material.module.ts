@@ -11,7 +11,10 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card';
-
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+  import {MatPaginatorModule} from '@angular/material/paginator';
+  import{MatSortModule} from '@angular/material/sort'
+import {MatTableModule} from '@angular/material/table'
 
 
 
@@ -28,7 +31,11 @@ const component=[MatFormFieldModule,
   MatTabsModule,
   MatDatepickerModule,
   MatCheckboxModule,
-  MatCardModule
+  MatCardModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+  MatSortModule,
+  MatTableModule
 
 
 

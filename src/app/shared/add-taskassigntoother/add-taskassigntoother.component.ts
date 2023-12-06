@@ -296,6 +296,7 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
       if (imageExtension.includes(extension)) {
         this.filesNames = multifilename
         const reader = new FileReader();
+
         reader.onload = (evt: any) => {
           const binarydata = evt.target?.result
           const base64string = btoa(binarydata);
@@ -311,22 +312,36 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
 
         }
 
-
-
-        // const convertingBase=btoa(file)
-        // console.log(convertingBase);
         reader.readAsBinaryString(file)
         // console.log("I")
 
       } else if (extension) {
         this.filesNames = multifilename
-        const convertingBase = btoa(file)
+        // const convertingBase = btoa(file)
 
-        this.assignroothers.patchValue({ Image: convertingBase })
-        this.assignroothers.patchValue({ MultimediaExtension: extension })
-        this.assignroothers.patchValue({ MultimediaFileName: multifilename })
-        this.assignroothers.patchValue({ MultimediaType: "D" })
-        console.log("D")
+        const reader = new FileReader();
+
+        reader.onload = (evt: any) => {
+          const binarydata = evt.target?.result
+          const base64string = btoa(binarydata);
+          console.log(base64string)
+
+          this.assignroothers.patchValue({ Image: base64string })
+          this.assignroothers.patchValue({ MultimediaData: base64string })
+          this.assignroothers.patchValue({ MultimediaExtension: extension })
+          this.assignroothers.patchValue({ MultimediaFileName: multifilename })
+          this.assignroothers.patchValue({ MultimediaType: "D" })
+
+          console.log(this.assignroothers.value);
+
+        }
+        reader.readAsBinaryString(file)
+
+        // this.assignroothers.patchValue({ Image: convertingBase })
+        // this.assignroothers.patchValue({ MultimediaExtension: extension })
+        // this.assignroothers.patchValue({ MultimediaFileName: multifilename })
+        // this.assignroothers.patchValue({ MultimediaType: "D" })
+        // console.log("D")
       } else {
         this.assignroothers.patchValue({ Image: "" })
         this.assignroothers.patchValue({ MultimediaExtension: "" })

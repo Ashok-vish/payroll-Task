@@ -26,4 +26,19 @@ export class AuthServicesService {
   assigntask(params:any):Observable<any>{
     return this.http.post<any>(`api/Task/AssignTask`,params)
   }
+
+
+  // mytask pages for all option 
+
+  // mytask(params:any):Observable<any>{
+  // return this.http.post<any>(`api/Task/UserTasksAssignedToMe`,params)
+  // }
+
+  ownercc(params:any):Observable<any>{
+    return this.http.post<any>(`api/Task/OwnerTasks`,params)
+  }
+
+  assignymeANDarchievdlistANDmytask(params:any):Observable<any>{
+    return this.http.post<any>(`api/Task/UserTasksAssignedByMe`,params)
+  }
 }

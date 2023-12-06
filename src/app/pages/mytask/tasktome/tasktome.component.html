@@ -1,1 +1,59 @@
-<p>tasktome works!</p>
+<mat-table class="lessons-table mat-elevation-z8" [dataSource]="datasource" class="row">
+
+    <ng-container matColumnDef="Title">
+        <mat-header-cell *matHeaderCellDef class="col-1">Title</mat-header-cell>
+        <mat-cell *matCellDef="let lesson" class="col-1">{{lesson.Title}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="CustomerName">
+        <mat-header-cell *matHeaderCellDef class="col-1">CustomerName</mat-header-cell>
+        <mat-cell class="description-cell col-1" *matCellDef="let lesson">{{lesson.LeadName?lesson.LeadName:"-"}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="AssignedBy">
+        <mat-header-cell *matHeaderCellDef class="col-1">AssignedBy</mat-header-cell>
+        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.AssignedByUserName}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="AssignedDate">
+        <mat-header-cell *matHeaderCellDef class="col-1">AssignedDate</mat-header-cell>
+        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.CreateDate | date:'dd MMM YYYY'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="DueDate">
+        <mat-header-cell *matHeaderCellDef class="col-1">DueDate</mat-header-cell>
+        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.TaskEndDate | date:'dd MMM YYYY'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Priority">
+        <mat-header-cell *matHeaderCellDef class="col-1">Priority</mat-header-cell>
+        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.Priority}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Status">
+        <mat-header-cell *matHeaderCellDef class="col-1">Status</mat-header-cell>
+        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.TaskStatus}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Action">
+        <mat-header-cell *matHeaderCellDef class="col-5"></mat-header-cell>
+        <mat-cell   *matCellDef="let lesson" class="duration-cell col-5">
+            <span><i class="bi bi-box-arrow-up"></i></span>
+            <span ><i class="bi bi-box-arrow-in-down"></i></span>
+            <span class="bi bi-hand-thumbs-up"><i></i></span>
+            <span class=""></span>
+            <span class=""></span>
+            <span class="bi bi-check2-circle"></span>
+            <span class="bi bi-pie-chart-fill"></span>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container class="col-md-5">
+
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="tableheadredef"></mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: tableheadredef"></mat-row>
+
+</mat-table>

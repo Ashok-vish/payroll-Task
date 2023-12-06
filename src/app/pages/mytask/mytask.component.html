@@ -1,30 +1,29 @@
 <!-- <p>mytask works!</p> -->
 <!-- <div class="container"> -->
-    <app-header></app-header>
-    <div class="mytaskheader container-fluid m-0 p-o">
-        <div class="row">
-            <div class="col-6 filtertitle">
-                <button mat-raised-button color="primary">Filter</button>
-            </div>
-            <div class="col-6 remainingfeiild">
-                <input  class="Searchfeild" type="text" placeholder="Search"  [(ngModel)]="searchText" (input)="change($event)">
-                <div class="allbtnoption">
-                    <button class="btnpr" mat-raised-button color="primary" (click)="addtask()">Add Task</button>
-                    <button class="btnpr" mat-raised-button color="primary">Setting</button>
-                    <button class="btnpr" mat-raised-button color="primary">Export</button>
-                </div>
+<app-header></app-header>
+<div class="mytaskheader container-fluid m-0 p-o">
+    <div class="row">
+        <div class="col-6 filtertitle">
+            <button mat-raised-button color="primary">Filter</button>
+        </div>
+        <div class="col-6 remainingfeiild">
+            <input class="Searchfeild" type="text" placeholder="Search" [(ngModel)]="searchText"
+                (input)="change($event)">
+            <div class="allbtnoption">
+                <button class="btnpr" mat-raised-button color="primary" (click)="addtask()">Add Task</button>
+                <button class="btnpr" mat-raised-button color="primary">Setting</button>
+                <button class="btnpr" mat-raised-button color="primary">Export</button>
             </div>
         </div>
+    </div>
 
-    </div>
-    <div class="fullpages">
-        <mat-tab-group>
-            <mat-tab label="My Task">
-                <app-archivelist></app-archivelist>
-            </mat-tab>
-            <mat-tab label="CC"> <app-assignedbyme></app-assignedbyme> </mat-tab>
-            <mat-tab label="Assigned By Me"> <app-cc></app-cc></mat-tab>
-            <mat-tab label="Archive List"> <app-tasktome></app-tasktome></mat-tab>
-        </mat-tab-group>
-    </div>
+</div>
+<div class="fullpages">
+    <mat-tab-group>
+        <mat-tab label="My Task"><app-tasktome></app-tasktome></mat-tab>
+        <mat-tab label="CC"> <app-cc></app-cc> </mat-tab>
+        <mat-tab label="Assigned By Me"> <app-assignedbyme></app-assignedbyme> </mat-tab>
+        <mat-tab label="Archive List"> <app-archivelist></app-archivelist> </mat-tab>
+    </mat-tab-group>
+</div>
 <!-- </div> -->
