@@ -8,6 +8,7 @@ import { MaterialModule } from '../../material/material/material.module';
 import { CoreModule } from 'src/app/core/core.module';
 import { AuthServicesService } from 'src/app/core/auth-services.service';
 // import { ToastrModule } from 'ngx-toastr';
+import { NgHttpLoaderModule } from 'ng-http-loader'
 
 
 
@@ -38,6 +39,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     MaterialModule,
     CoreModule,
+    NgHttpLoaderModule,
     RouterModule.forChild(routes),
   ],
 

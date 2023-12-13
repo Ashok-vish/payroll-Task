@@ -1,5 +1,6 @@
 <!-- <p>mytask works!</p> -->
 <!-- <div class="container"> -->
+<ng-http-loader></ng-http-loader>
 <app-header></app-header>
 <div class="mytaskheader container-fluid m-0 p-o">
     <div class="row">
@@ -19,11 +20,15 @@
 
 </div>
 <div class="fullpages">
-    <mat-tab-group>
-        <mat-tab label="My Task"><app-tasktome></app-tasktome></mat-tab>
-        <mat-tab label="CC"> <app-cc></app-cc> </mat-tab>
-        <mat-tab label="Assigned By Me"> <app-assignedbyme></app-assignedbyme> </mat-tab>
-        <mat-tab label="Archive List"> <app-archivelist></app-archivelist> </mat-tab>
+    <mat-tab-group [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChanged($event)">
+        <mat-tab label="My Task"><app-tasktome [searchfeildtext]="searchText"
+                [currentTabindex]="selectedIndex"></app-tasktome></mat-tab>
+        <mat-tab label="CC"> <app-cc [searchfeildtext]="searchText" [currentTabindex]="selectedIndex"></app-cc>
+        </mat-tab>
+        <mat-tab label="Assigned By Me"> <app-assignedbyme [searchfeildtext]="searchText"
+                [currentTabindex]="selectedIndex"></app-assignedbyme> </mat-tab>
+        <mat-tab label="Archive List"> <app-archivelist [searchfeildtext]="searchText"
+                [currentTabindex]="selectedIndex"></app-archivelist> </mat-tab>
     </mat-tab-group>
 </div>
 <!-- </div> -->

@@ -6,8 +6,8 @@ import { AuthServicesService } from "../../core/auth-services.service";
 export class BaseDataSource implements DataSource<any>{
 
     allDataresponse = new BehaviorSubject<any[]>([])
-    totalPaginationcount= new BehaviorSubject<number>(0)   //making oject 
-    totalCount!:Observable<any>  //makeing refrence so we use colon
+    totalPaginationcount= new BehaviorSubject<number>(0)    
+    totalCount!:Observable<any>  
     
 
     // if we mention here service it will not make customedatasources

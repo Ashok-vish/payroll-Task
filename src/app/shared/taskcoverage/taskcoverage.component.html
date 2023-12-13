@@ -1,0 +1,36 @@
+
+<h3 mat-dialog-title class="titless">
+    <span class="taskk">Task Coverage</span>
+    <span class="taskk" (click)="cancel()">x</span>
+</h3>
+
+
+<div mat-dialog-content class="contentdata">
+   
+
+    <tr *ngFor="let obj of viewCoveragedata | keyvalue">
+        <td>{{obj.key}}</td>
+        <td>{{obj.value}}</td>
+    <!-- </tr>
+    <tr>
+        <td>Completed</td>
+        <td>312312312</td>
+    </tr>
+    <tr>
+        <td>Not Accepted</td>
+        <td>312312312</td>
+    </tr>
+    <tr>
+        <td>Partial Complete</td>
+        <td>312312312</td>
+    </tr> -->
+
+    
+
+</div>
+
+
+<!-- <div mat-dialog-actions class="buttons">
+    <button mat-button (click)="closed()">Cancel</button>
+    <button mat-button color="primary" (click)="add()">Yes</button>
+</div> -->

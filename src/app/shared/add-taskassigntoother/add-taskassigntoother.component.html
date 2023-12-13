@@ -1,23 +1,26 @@
 <!-- <p>add-taskassigntoother works!</p> -->
-
-<h3 mat-dialog-title class="titless">
-    <span class="taskk">Add Task</span>
-    <span class="taskk" (click)="cancel()">x</span>
-</h3>
+<div mat-dialog-title class="titless">
+    <div class="taskk">Add Task</div>
+    <div class="taskk" (click)="cancel()">x</div>
+</div>
 
 
 <div mat-dialog-content class="contentdata">
 
-    <mat-tab-group [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChanged($event)">
+    <mat-tab-group [(selectedIndex)]="selectedIndex"  #tabgroup (selectedTabChange)="onTabChanged($event)"    (selectedIndexChange)="checking(tabgroup,$event)">
+
+
         <mat-tab label="Assign to Others">
             <div class="assigntoother">
 
                 <form [formGroup]="assignroothers">
                     <div class="row">
                         <mat-form-field class="col-12">
-                            <mat-label>Title*</mat-label>
+                            <mat-label>Title</mat-label>
                             <input matInput placeholder="Title" formControlName="Title" />
-                            <mat-error>Title is required</mat-error>
+                            <mat-error *ngIf="assignroothers.controls['Title'].hasError('required')">Title is required</mat-error>
+                            <mat-error *ngIf="assignroothers.controls['Title'].hasError('pattern')">Only Alphabets required</mat-error>
+                            <mat-error *ngIf="assignroothers.controls['Title'].hasError('maxLength')">Accept only 20 character</mat-error>
                         </mat-form-field>
 
                     </div>
@@ -98,6 +101,9 @@
                 </form>
             </div>
         </mat-tab>
+
+
+
         <mat-tab label="Assign to Me">
             <div class="assigntoother">
 
@@ -106,7 +112,9 @@
                         <mat-form-field class="col-12">
                             <mat-label>Title</mat-label>
                             <input matInput placeholder="Title" formControlName="Title" />
-                            <mat-error>Title is required</mat-error>
+                            <mat-error *ngIf="assignroothers.controls['Title'].hasError('required')">Title is required</mat-error>
+                            <mat-error *ngIf="assignroothers.controls['Title'].hasError('pattern')">Only Alphabets required</mat-error>
+                            <mat-error *ngIf="assignroothers.controls['Title'].hasError('maxLength')">Accept only 20 character</mat-error>
                         </mat-form-field>
 
                     </div>
@@ -178,6 +186,10 @@
                 </form>
             </div>
         </mat-tab>
+
+
+
+
     </mat-tab-group>
 
 </div>

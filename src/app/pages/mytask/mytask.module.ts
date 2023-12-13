@@ -10,6 +10,8 @@ import { TasktomeComponent } from './tasktome/tasktome.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { NgHttpLoaderModule } from 'ng-http-loader';
+
 
 
 const routes:Routes=[
@@ -29,6 +31,7 @@ const routes:Routes=[
     TasktomeComponent,
   ],
   imports: [
+    NgHttpLoaderModule,
     CommonModule,
     MytaskRoutingModule,
     MaterialModule,

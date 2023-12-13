@@ -1,0 +1,24 @@
+
+<!-- <p>add-taskassigntoother works!</p> -->
+
+<h3 mat-dialog-title class="titless">
+    <h4>ARCHIVE TASK</h4>
+</h3>
+
+
+<div mat-dialog-content class="contentdata">
+  
+
+    <div *ngIf="message==false">
+        Do you want to delete this Task?
+    </div>
+
+    <div *ngIf="message==true">Task is deleting......</div>
+
+</div>
+
+
+<div mat-dialog-actions class="buttons">
+    <button mat-button (click)="closed()">Cancel</button>
+    <button mat-button color="primary" (click)="add()">Yes</button>
+</div>

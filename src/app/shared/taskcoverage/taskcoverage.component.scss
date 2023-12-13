@@ -1,0 +1,24 @@
+.titless{
+    display: flex;
+    justify-content: space-between;
+    padding: 1px 12px;
+    // position: fixed;
+    border-bottom: 1px solid beige;
+}
+
+.taskk{
+    font-weight: 500;
+    cursor: pointer;
+}
+
+tr {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 12px;
+    font-weight: 500;
+}
+
+.mdc-dialog__title::before {
+    content: unset ;
+    // vertical-align: 0;
+}

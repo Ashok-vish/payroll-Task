@@ -1,1 +1,84 @@
-<p>cc works!</p>
+<mat-table class="lessons-table mat-elevation-z8" [dataSource]="datasource" class="row">
+
+    <ng-container matColumnDef="Title">
+        <mat-header-cell *matHeaderCellDef class="col-1">Title</mat-header-cell>
+        <mat-cell *matCellDef="let lesson" class="col-1" (click)="viewdetails(lesson)" [ngClass]="{'titlescolor':lesson.Title}">{{lesson.Title}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="CustomerName">
+        <mat-header-cell *matHeaderCellDef class="col-1">CustomerName</mat-header-cell>
+        <mat-cell class="description-cell col-1"
+            *matCellDef="let lesson">{{lesson.LeadName?lesson.LeadName:"-"}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="AssignedBy">
+        <mat-header-cell *matHeaderCellDef class="col-1">AssignedBy</mat-header-cell>
+        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.AssignedByUserName}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="AssignedDate">
+        <mat-header-cell *matHeaderCellDef class="col-1">AssignedDate</mat-header-cell>
+        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.CreateDate | date:'dd MMMYYYY'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="DueDate">
+        <mat-header-cell *matHeaderCellDef class="col-1">DueDate</mat-header-cell>
+        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.TaskEndDate | date:'dd MMMYYYY'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Priority">
+        <mat-header-cell *matHeaderCellDef class="col-1">Priority</mat-header-cell>
+        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.Priority}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Status">
+        <mat-header-cell *matHeaderCellDef class="col-1">Status</mat-header-cell>
+        <mat-cell class="duration-cell col-1" *matCellDef="let lesson"
+            [ngStyle]="{'color':lesson.CompletionPercentage==100?'green':lesson.CompletionPercentage==-1?'red':lesson.CompletionPercentage==0?'orange':lesson.CompletionPercentage>0 && lesson.CompletionPercentage<100 ? 'blue':''}">
+
+
+            <div *ngIf="lesson.CompletionPercentage==0">Accepted</div>
+            <div *ngIf="lesson.CompletionPercentage==-1">Not Accepted</div>
+            <div *ngIf="lesson.CompletionPercentage>0 && lesson.CompletionPercentage<100"> Partical Complete</div>
+            <div *ngIf="lesson.CompletionPercentage==100">Complete</div>
+
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Action">
+        <mat-header-cell *matHeaderCellDef class="col-5"></mat-header-cell>
+        <mat-cell *matCellDef="let lesson" class="duration-cell col-5">
+            <!-- <span class=" asctionbtton "> <img src="assets/images/Unarchive.svg" alt=""></span> -->
+
+            <span class=" asctionbtton " matTooltip="Archive" (click)="archievd(lesson)"
+                [ngStyle]="{'visibility':UserID==lesson.AssignedByUserId?'visible':'hidden'}"><img
+                    src="assets/images/Archive.svg" alt=""></span>
+
+            <span class=" asctionbtton " matTooltip="Accept" (click)="accept(lesson)"
+                [ngStyle]="{'visibility':lesson.TaskStatus==-1?'visible':'hidden'}"><img src="assets/images/Accept.svg"
+                    alt=""></span>
+
+            <span class=" asctionbtton " matTooltip="View Task Coverage" (click)="viewtaskcoverage(lesson)"><img
+                    src="assets/images/ViewTaskCoverage.svg" alt=""></span>
+
+            <span class=" asctionbtton " matTooltip="Delete" (click)="deleteoption(lesson)"
+                [ngStyle]="{'visibility':UserID==lesson.AssignedByUserId?'visible':'hidden'}"><img
+                    src="assets/images/Delete.svg" alt=""></span>
+
+            <!-- <span class=" asctionbtton " matTooltip="Complete"><img src="assets/images/Complete.svg" alt=""></span> -->
+
+            <span class=" asctionbtton " matTooltip="Partial Complete"
+                [ngStyle]="{'visibility':lesson.TaskStatus!=-1 && lesson.TaskStatus>=0 && lesson.TaskStatus<100 && lesson.TaskStatus!=100 ?'visible':'hidden'}">
+                <img src="assets/images/PartialComplete.svg" alt=""></span>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="tableheadredef"></mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: tableheadredef"></mat-row>
+
+</mat-table>
+
+<mat-paginator [length]="datasource.totalCount | async" [pageSize]="5" [pageSizeOptions]="[5, 10, 20]"
+    aria-label="Select page">
+</mat-paginator>

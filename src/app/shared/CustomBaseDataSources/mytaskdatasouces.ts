@@ -7,28 +7,35 @@ export class Mytaskdatasources extends BaseDataSource{
        super();
    }
 
-   mytraskdata(){
-    const params={
-        "From": 1,
-        "To": 10,
-        "Title": "",
-        "UserId": 1248,
-        "IsArchive": false,
-        "UserIds": [],
-        "Priority": "",
-        "TaskStatus": "",
-        "FromDueDate": "",
-        "ToDueDate": "",
-        "SortByDueDate": "",
-        "SortColumn": "",
-        "SortOrder": ""
-      }
+   mytraskdata(params:any){
     this.services.assignymeANDarchievdlistANDmytask(params).subscribe((res)=>{
-        console.log(res);
+        // console.log(res);
 
         this.allDataresponse.next(res.data.TaskList)
+        this.totalPaginationcount.next(res.data.TotalCount)
         
     })
    }
+
+   assignbyme(params:any){
+    this.services.assigntome(params).subscribe(res=>{
+        this.allDataresponse.next(res.data.TaskList) 
+        this.totalPaginationcount.next(res.data.TotalCount)
+    })
+   }
+
+
+   owner(params:any){
+
+    this.services.ownercc(params).subscribe((res:any)=>{
+    this.allDataresponse.next(res.data.TaskList) 
+    this.totalPaginationcount.next(res.data.TotalCount)
+    // console.log(this.allDataresponse)
+    // console.table(this.allDataresponse)
+    
+    })
+   }
+
+
 
 }

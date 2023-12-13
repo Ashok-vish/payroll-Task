@@ -1,0 +1,23 @@
+
+
+<h3 mat-dialog-title class="titless">
+    <h4>COMPLETE TASK</h4>
+</h3>
+
+
+<div mat-dialog-content class="contentdata">
+  
+
+    <div *ngIf="partialdata=='' ">
+        No Data Found
+    </div>
+
+    <div *ngIf="partialdata">{{partialdata}}</div>
+
+</div>
+
+
+<div mat-dialog-actions class="buttons">
+    <button mat-button (click)="closed()">Cancel</button>
+    <button mat-button color="primary" (click)="add()">Yes</button>
+</div>

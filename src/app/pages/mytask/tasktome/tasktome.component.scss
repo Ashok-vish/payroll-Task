@@ -5,3 +5,33 @@ mat-header-row.mat-mdc-header-row.mdc-data-table__header-row.cdk-header-row.ng-s
 mat-row.mat-mdc-row.mdc-data-table__row.cdk-row.ng-star-inserted {
     font-size: smaller;
 }
+
+img {
+    height: 20px;
+}
+
+.asctionbtton{
+    padding: 0 26px;
+}
+
+.mat-mdc-tab-body-wrapper {
+    min-height: 70vh;
+}
+
+// ::ng-deep mat-paginator.mat-mdc-paginator {
+//     position: absolute;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+// }
+
+.sortarrow{
+    cursor: pointer;
+    height: 14px;
+    margin-left: 4px;
+}
+
+.titlescolor{
+    color: rgb(7, 61, 168);
+    cursor: pointer;
+}

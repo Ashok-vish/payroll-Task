@@ -2,11 +2,13 @@ import { Component, HostListener, OnChanges, OnInit, SimpleChanges, ViewChild } 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { AddccmembersComponent } from '../addccmembers/addccmembers.component';
+import { ENTER, SPACE, hasModifierKey } from '@angular/cdk/keycodes';
 import { AdduserComponent } from '../adduser/adduser.component';
 import { ElementRef } from '@angular/core';
 import * as moment from 'moment/moment';
 import { AuthServicesService } from 'src/app/core/auth-services.service';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { ConfirmationdialogComponent } from '../confirmationdialog/confirmationdialog.component';
 
 
 @Component({
@@ -21,6 +23,7 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
   detailsObject: any
   answer: any;
   CCanswer: any[] = []
+  a: any
   ccresponse: any;
   filesNames: any = "";
   addusername: any = '';
@@ -28,6 +31,9 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
   filesizecondition: boolean = false;
   array: any[] = []
   currentdate = new Date();
+  // condition for tabchange
+  index = 0;
+  indexOld = 0;
 
   constructor(private dialogRef: MatDialogRef<AddTaskassigntootherComponent>, private fb: FormBuilder, private dialog: MatDialog, private services: AuthServicesService) { }
 
@@ -37,8 +43,9 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
 
   ];
 
-  // @HostListener('click', ['attachedfile'])
   @ViewChild('attachedfile') attachedfile!: ElementRef
+  @ViewChild('tabgroup',{static:true}) tabgroup!:MatTabGroup
+
 
   folder() {
     this.attachedfile.nativeElement.click()
@@ -53,28 +60,51 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
   }
 
 
-  a: any
+
 
   ngOnInit() {
 
-    this.a = JSON.parse(localStorage.getItem('userId') || "")
 
-    console.log(this.a)
-    console.log(this.answer)
+    setTimeout(() => {
+      const tabHeader = (this.tabgroup as any)._tabHeader;
+      tabHeader._handleKeydown = (event: KeyboardEvent) => {
+        if (hasModifierKey(event)) {
+          return;
+        }
+
+        switch (event.keyCode) {
+          case ENTER:
+          case SPACE:
+            if (tabHeader.focusIndex !== tabHeader.selectedIndex) {
+              const item = tabHeader._items.get(tabHeader.focusIndex);
+              this.alertDialog(tabHeader.focusIndex, item, tabHeader);
+            }
+            break;
+          default:
+            tabHeader._keyManager.onKeydown(event);
+        }
+      };
+    });
+
+    (this.tabgroup as any)._handleClick = (
+      tab: MatTab,
+      tabHeader: any,
+      index: number
+    ) => {
+      if (this.tabgroup.selectedIndex != index)
+        this.alertDialog(index, tab, tabHeader);
+    };
+
+    
+
+
+
+    this.a = JSON.parse(localStorage.getItem('userId') || "")
 
     this.assignroothers = this.fb.group({
 
       Id: [''],
-      Title: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^[a-zA-Z ]+$'),
-          Validators.maxLength(20),
-        ],
-      ],
-
-
+      Title: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$'), Validators.maxLength(20)]],
       Priority: ['', Validators.required],
       AssignedBy: [this.a],
       AssignedToUserId: [''],
@@ -106,22 +136,86 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
 
   }
 
+
+  alertDialog(index: number, tab: MatTab, tabHeader: any) {
+
+    const idformdirty=this.isdirty();
+
+    if (!idformdirty) {
+      tabHeader.focusIndex = index;
+  
+      if (!tab.disabled) {
+        this.tabgroup.selectedIndex = index;
+      }
+      return;
+    }
+
+
+
+
+    const dialogRef = this.dialog.open(ConfirmationdialogComponent, {
+      data: {},
+    });
+    const res = dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        tabHeader.focusIndex = index;
+
+        if (!tab.disabled) {
+          this.tabgroup.selectedIndex = index;
+        }
+      }
+    });
+  }
+
+  isdirty():boolean{
+    return this.assignroothers.dirty;
+  }
+
+
+
+  checking(tab:any ,event: any) {
+    console.log(tab.selectedIndex , event)
+    // if (tab.selectedIndex !=this.submittedTab1 && confirm("do you want to go")) {
+    //   //  confirm("do you want to go")
+    //    this.submittedTab1=tab.selectedIndex
+    //   console.log("1to 2")
+
+    // } 
+  }
+
   onTabChanged(event: any) {
     console.log(event.index)
     this.selectedIndex = event.index
 
-    console.log(this.selectedIndex);
+    // console.log(this.selectedIndex);
+    // if(this.assignroothers.controls['dirty']){
+    //   console.log("dirty")
+    // }
+
 
 
     if (this.selectedIndex == 0) {
-      console.log("assign to other");
+      // console.log("assign to other");
+      this.assignroothers.reset()
+
 
     } else if (this.selectedIndex == 1) {
-      console.log("assign to me");
-
+      // console.log("assign to me");
+      this.assignroothers.reset()
+      // this.tabConditionChecked()
     }
 
   }
+  // tabConditionChecked() {
+
+  //   if (this.selectedIndex == 0 && this.assignroothers.dirty) {
+
+  //     alert("You want to moves to next pages")
+
+  //   }
+  // }
+
+
   newdate: any;
   TaskEnd: any
 
@@ -130,13 +224,10 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
     const date = new Date()
     this.TaskEnd = date.toISOString()
     console.log(this.TaskEnd)
-    // const abc=new Date(TaskEndDateDisplay)
-    // console.log(abc)
     this.newdate = moment(date).format('D MMM YYYY h:mm A');
     console.log(this.newdate)
     // this.assignroothers.patchValue({TaskEndDateDisplay:TaskEnd})
     // this.assignroothers.patchValue({TaskEndDate:abc})
-
     this.assignroothers.controls['TaskEndDateDisplay'].setValue(this.TaskEnd)
     this.assignroothers.controls['TaskEndDate'].setValue(this.newdate)
   }
@@ -145,9 +236,10 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
 
   add() {
     // debugger
-    if(this.selectedIndex ==1){
+    if (this.selectedIndex == 1) {
       this.assignroothers.controls['UserDisplayIds'].disable()
     }
+
     if (this.assignroothers.invalid) {
       console.log(this.assignroothers.value)
       this.assignroothers.markAllAsTouched()
@@ -162,13 +254,14 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
         })
       } else if (this.selectedIndex == 1) {
 
-        
+
         this.assignroothers.controls['UserIds'].patchValue([this.a])
 
         const params = this.assignroothers.value
         console.log(params)
-        this.services.assigntask(params).subscribe((res:any)=>{
+        this.services.assigntask(params).subscribe((res: any) => {
           console.log(res)
+          this.dialogRef.close()
         })
       }
     }
@@ -184,21 +277,17 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
     this.dialogRef.close()
   }
 
+  // onTabGroupClick(event: any) {
 
-  // add CC
+  //   console.log(event)
+  //   // if(!this.submittedTab1 &&  this.selectedIndex==1 ){
+  //   //      alert("1 to 2")
+  //   //      this.submittedTab1=true
 
-  // addCC() {
-  //   const addccc = this.dialog.open(AddccmembersComponent, {
-  //     height: '450px',
-  //     width: '400px',
-  //     data: this.ccresponse,
-  //     disableClose: true,
-
-  //   })
-
-  //   addccc.afterClosed().subscribe((res: any) => {
-  //     console.log(res + "cc  test")
-  //   })
+  //   // }else if(this.submittedTab1 &&  this.selectedIndex==0){
+  //   //          alert("2 to 1")
+  //   //          this.submittedTab1=false
+  //   // }
   // }
 
 
@@ -220,7 +309,7 @@ export class AddTaskassigntootherComponent implements OnInit, OnChanges {
       }
     }
     const adduser = this.dialog.open(AdduserComponent, {
-      height: '450px',
+      height: '430px',
       width: '400px',
       data: this.detailsObject,
       disableClose: true,

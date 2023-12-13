@@ -30,9 +30,9 @@ export class AuthServicesService {
 
   // mytask pages for all option 
 
-  // mytask(params:any):Observable<any>{
-  // return this.http.post<any>(`api/Task/UserTasksAssignedToMe`,params)
-  // }
+  assigntome(params:any):Observable<any>{
+  return this.http.post<any>(`api/Task/UserTasksAssignedToMe`,params)
+  }
 
   ownercc(params:any):Observable<any>{
     return this.http.post<any>(`api/Task/OwnerTasks`,params)
@@ -41,4 +41,36 @@ export class AuthServicesService {
   assignymeANDarchievdlistANDmytask(params:any):Observable<any>{
     return this.http.post<any>(`api/Task/UserTasksAssignedByMe`,params)
   }
+
+  // archievd, delete, complete ect all 7 button api
+  archive(params:any):Observable<any>{
+    return this.http.post<any>(`api/Task/Archive`, params);
+  }
+
+  viewtaskcoverage(id:number, params:any):Observable<any>{
+    return this.http.get<any>(`api/Task/StatusReport?taskId=${id}`,params)
+  } 
+
+  deleteoption(id:number,params:any):Observable<any>{
+    return this.http.get<any>(`api/Task/DeleteTask?taskId=${id}`,params)
+  }
+
+  complete(params:any):Observable<any>{
+    return this.http.post<any>(`api/Task/UpdateTaskStatus`,params)
+  }
+
+  unarchived(params:any):Observable<any>{
+    return this.http.post<any>(`api/Task/Archive`, params)
+  }
+
+  particialComplete():Observable<any>{
+    return this.http.get<any>(`api/Task/UserTaskStatusMaster`)
+  }
+
+  // viewtaskkdetails api
+
+  userdetailstask(id:any):Observable<any>{
+  return this.http.get<any>(`api/Task/UserTaskDetails?taskId=`+ id)
+  }
+
 }

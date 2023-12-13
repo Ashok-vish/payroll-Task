@@ -9,18 +9,17 @@ import { Observable } from 'rxjs';
 
 
 
-export class reversedgaurdGuard implements CanActivate{
+export class reversedgaurdGuard implements CanActivate {
   constructor(private router: Router, private active: ActivatedRoute) { };
 
   canActivate() {
-     const user =localStorage.getItem('access_token')
+    const user = localStorage.getItem('access_token')
 
-     if(user){
+    if (!user) {
       return true;
-     }else{
-      this.router.navigate(['login'])
-      return false;
-     }
+    }
+
+    return false
   }
-  
+
 }

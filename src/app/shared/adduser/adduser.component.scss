@@ -47,3 +47,8 @@
 // input.ng-pristine.ng-valid.ng-touched:focus-visible {
 //     outline: none !important;
 // }
+
+.mdc-dialog__title::before {
+    content: unset ;
+    // vertical-align: 0;
+}

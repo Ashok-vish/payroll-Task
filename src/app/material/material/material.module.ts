@@ -15,6 +15,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
   import {MatPaginatorModule} from '@angular/material/paginator';
   import{MatSortModule} from '@angular/material/sort'
 import {MatTableModule} from '@angular/material/table'
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 
@@ -35,7 +36,8 @@ const component=[MatFormFieldModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatSortModule,
-  MatTableModule
+  MatTableModule,
+  MatTooltipModule
 
 
 

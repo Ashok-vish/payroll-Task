@@ -32,8 +32,8 @@ export class InterceptorInterceptor implements HttpInterceptor {
           }
         }
       }, (err) => {
-        console.log("something went wrong")
-        this.toastr.error(err.error.Message)
+        // console.log("something went wrong")
+        this.toastr.error('Something Went Wrong')
       }
       )
     )

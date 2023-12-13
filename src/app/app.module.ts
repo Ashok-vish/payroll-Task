@@ -9,12 +9,18 @@ import { InterceptorInterceptor } from './core/interceptor.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+
+    
   ],
   imports: [
+    CommonModule,
     FormsModule,
     BrowserModule,
     SharedModule,

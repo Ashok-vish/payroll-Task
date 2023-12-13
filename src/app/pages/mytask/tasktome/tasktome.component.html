@@ -2,12 +2,13 @@
 
     <ng-container matColumnDef="Title">
         <mat-header-cell *matHeaderCellDef class="col-1">Title</mat-header-cell>
-        <mat-cell *matCellDef="let lesson" class="col-1">{{lesson.Title}}</mat-cell>
+        <mat-cell *matCellDef="let lesson" class="col-1" (click)="viewdetails(lesson)" [ngClass]="{'titlescolor':lesson.Title}">{{lesson.Title}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="CustomerName">
         <mat-header-cell *matHeaderCellDef class="col-1">CustomerName</mat-header-cell>
-        <mat-cell class="description-cell col-1" *matCellDef="let lesson">{{lesson.LeadName?lesson.LeadName:"-"}}</mat-cell>
+        <mat-cell class="description-cell col-1"
+            *matCellDef="let lesson">{{lesson.LeadName?lesson.LeadName:"-"}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="AssignedBy">
@@ -16,13 +17,17 @@
     </ng-container>
 
     <ng-container matColumnDef="AssignedDate">
-        <mat-header-cell *matHeaderCellDef class="col-1">AssignedDate</mat-header-cell>
-        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.CreateDate | date:'dd MMM YYYY'}}</mat-cell>
+        <mat-header-cell *matHeaderCellDef class="col-1">AssignedDate
+            <img class="sortarrow" src="assets/images/arrow-down-up.svg" (click)="toggletosort('AssignedDate', '')" alt="">
+        </mat-header-cell>
+        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.CreateDate | date:'dd MMMYYYY'}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="DueDate">
-        <mat-header-cell *matHeaderCellDef class="col-1">DueDate</mat-header-cell>
-        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.TaskEndDate | date:'dd MMM YYYY'}}</mat-cell>
+        <mat-header-cell *matHeaderCellDef class="col-1">DueDate 
+            <img class="sortarrow" src="assets/images/arrow-down-up.svg"  (click)="toggletosort('', 'DueDate')"alt="">
+        </mat-header-cell>
+        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.TaskEndDate | date:'dd MMMYYYY'}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Priority">
@@ -32,19 +37,47 @@
 
     <ng-container matColumnDef="Status">
         <mat-header-cell *matHeaderCellDef class="col-1">Status</mat-header-cell>
-        <mat-cell class="duration-cell col-1" *matCellDef="let lesson">{{lesson.TaskStatus}}</mat-cell>
+        <mat-cell class="duration-cell col-1" *matCellDef="let lesson" [ngStyle]="{'color':lesson.TaskStatus==100?'green':lesson.TaskStatus==-1?'red':lesson.TaskStatus==0?'orange':lesson.TaskStatus>0 && lesson.TaskStatus<100 ? 'blue':''}">
+            <!-- {{lesson.TaskStatus}} -->
+            <div *ngIf="lesson.TaskStatus==0">Accepted</div>
+            <div *ngIf="lesson.TaskStatus==-1">Not Accepted</div>
+            <div *ngIf="lesson.TaskStatus>0 && lesson.TaskStatus<100" > Partical Complete</div>
+            <div *ngIf="lesson.TaskStatus==100">Complete</div>
+        </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Action">
         <mat-header-cell *matHeaderCellDef class="col-5"></mat-header-cell>
-        <mat-cell   *matCellDef="let lesson" class="duration-cell col-5">
-            <span><i class="bi bi-box-arrow-up"></i></span>
-            <span ><i class="bi bi-box-arrow-in-down"></i></span>
-            <span class="bi bi-hand-thumbs-up"><i></i></span>
-            <span class=""></span>
-            <span class=""></span>
-            <span class="bi bi-check2-circle"></span>
-            <span class="bi bi-pie-chart-fill"></span>
+        <mat-cell *matCellDef="let lesson" class="duration-cell col-5">
+         
+
+            <span class=" asctionbtton " matTooltip="Archive" (click)="archievd(lesson)"
+                [ngStyle]="{'visibility':UserID==lesson.AssignedByUserId && !lesson.IsArchive?'visible':'hidden'}">
+                <img src="assets/images/Archive.svg" alt="">
+            </span>
+
+            <span class=" asctionbtton " matTooltip="Accept"  (click)="accept(lesson)"
+                [ngStyle]="{'visibility':lesson.TaskStatus== -1 ? 'visible':'hidden'}">
+                <img src="assets/images/Accept.svg" alt="">
+            </span>
+
+            <span class=" asctionbtton " matTooltip="View Task Coverage"  (click)="viewtaskcoverage(lesson)"
+                [ngStyle]="{'visibility':UserID==lesson.AssignedByUserId && !lesson.IsArchive?'visible':'hidden'}">
+                <img src="assets/images/ViewTaskCoverage.svg" alt="">
+            </span>
+
+            <span class=" asctionbtton " matTooltip="Delete"  (click)="deleteoption(lesson)"
+                [ngStyle]="{'visibility':UserID==lesson.AssignedByUserId && !lesson.IsArchive?'visible':'hidden'}">
+                <img src="assets/images/Delete.svg" alt="">
+            </span>
+            <span class=" asctionbtton " matTooltip="Complete" (click)="completetask(lesson)"
+                [ngStyle]="{'visibility':lesson.TaskStatus!=100 &&  lesson.TaskStatus!=-1 && !lesson.IsArchive?'visible':'hidden'}">
+                <img src="assets/images/Complete.svg" alt="">
+            </span>
+            <span class=" asctionbtton " matTooltip="Partial Complete" (click)="partiacomplete(lesson)"
+                [ngStyle]="{'visibility':lesson.TaskStatus!=100 &&  lesson.TaskStatus!=-1 && lesson.TaskStatus<100 && lesson.TaskStatus>-1 && !lesson.IsArchive?'visible':'hidden'}">
+                <img src="assets/images/PartialComplete.svg" alt="">
+            </span>
         </mat-cell>
     </ng-container>
 
@@ -57,3 +90,7 @@
     <mat-row *matRowDef="let row; columns: tableheadredef"></mat-row>
 
 </mat-table>
+
+<mat-paginator [length]="datasource.totalCount | async" [pageSize]="5" [pageSizeOptions]="[5, 10, 20]"
+    aria-label="Select page">
+</mat-paginator>

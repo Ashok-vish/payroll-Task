@@ -10,3 +10,5 @@ const routes: Routes = [{ path: '', loadChildren: () => import('./pages/pages.mo
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+

@@ -1,0 +1,86 @@
+<h3 mat-dialog-title class="titless">
+    <h4>Task Details</h4>
+</h3>
+
+
+<div mat-dialog-content class="contentdata">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6">
+                <div class="row ">
+                    <div class="col-12">
+                        <div class="syntax">Title</div>
+                        <div class="syntax">{{viewdetails.Title}}</div>
+                    </div>
+                    <div class="col-12">
+                        <div class="syntax">Description</div>
+                        <div class="syntax">{{viewdetails.Description}}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="syntax">Attached File</div>
+                            <div class="syntax" *ngIf="!viewdetails.MultimediaName">{{viewdetails.MultimediaName? viewdetails.MultimediaName:'-' }}</div>
+                            <div *ngIf="viewdetails.MultimediaName" class="imagetag">
+                                <span>{{viewdetails.MultimediaName |truncatepipes:['10','..'] }}</span>
+                                <span class="viewOption" [ngClass]="{'viewOption':viewdetails.MultimediaName}" (click)="viewimages(viewdetails.MultimediaName)">view</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="syntax">Priority</div>
+                            <div class="syntax">{{viewdetails.Priority + "Priority" }}</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="syntax">Assigned Date</div>
+                            <div class="syntax">{{viewdetails.AssignedDate }}</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="syntax">Due Date</div>
+                            <div class="syntax">{{viewdetails.CompletedDate }}</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="syntax">Assigned To</div>
+                            <div class="syntax">{{viewdetails.AssignedToUserCount }}</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="syntax">CC Members</div>
+                            <div class="syntax">{{viewdetails.AssignedToUserCount }}</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="syntax">Customer Name</div>
+                            <div class="syntax">{{ "-" }}</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="syntax">Mobile No</div>
+                            <div class="syntax">{{ "-" }}</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button mat-raised-button color="primary">Edit Task</button>
+            </div>
+
+            <div class="col-6">
+                <div>Comments</div>
+                <input type="text" placeholder="Enter Your Commnet">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div mat-dialog-actions class="buttons">
+    <button mat-raised-button  (click)="closed()">Cancel</button>
+</div>

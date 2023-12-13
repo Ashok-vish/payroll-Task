@@ -1,0 +1,26 @@
+.titless {
+    h4 {
+        font-weight: 600;
+        padding: 10px;
+        border-bottom: 1px solid beige;
+    }
+}
+
+.contentdata {
+    padding: 28px;
+    border-bottom: 1px solid beige;
+}
+
+.buttons{
+    text-align: end;
+    padding-top: 12px;
+}
+
+.mdc-dialog__title::before {
+    content: unset;
+}
+
+.mdc-dialog__title{
+    margin: 0px;
+    padding: 0px;
+}
