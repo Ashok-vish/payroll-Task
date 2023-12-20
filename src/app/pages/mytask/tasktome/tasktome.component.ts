@@ -79,7 +79,7 @@ export class TasktomeComponent implements OnInit, AfterViewInit, OnChanges {
     // this.oncallpaginators()
     merge(this.paginator.page).pipe(tap(() => {
       this.mytaskpage()
-    })).subscribe()
+    })).subscribe() 
 
   }
 
